@@ -57,6 +57,7 @@ const register = async(req,res)=>{
             webLink:user.webLink,
             alternateNumber:user.alternateNumber,
             businessDetails:user.businessDetails,
+            createdAt:user.createdAt,
             token:token
         }],
         "msg":"user registered successfully",
@@ -95,6 +96,7 @@ const login = async(req,res)=>{
             city:user.city,
             webLink:user.webLink,
             alternateNumber:user.alternateNumber,
+            createdAt:user.createdAt,
             businessDetails:user.businessDetails,token:token
         }],
         "msg":"user loggedIn successfully",
