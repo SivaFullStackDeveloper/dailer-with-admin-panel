@@ -4,7 +4,7 @@ const app = express()
 require('dotenv').config()
 const helmet = require('helmet')
 const xss = require('xss-clean')
-const rateLimiter = require('express-rate-limit')
+//const rateLimiter = require('express-rate-limit')
 const cors = require('cors')
 const connectToDb = require('./db/connection')
 const notfound = require('./middleware/notfound')
@@ -17,10 +17,10 @@ app.use(express.json())
 app.use(xss())
 app.use(cors())
 //app.use('trust proxy',1)
-app.use(rateLimiter({
-        windowMs: 15 * 60 * 1000, 
-        limit: 100,
-}))
+// app.use(rateLimiter({
+//         windowMs: 15 * 60 * 1000, 
+//         limit: 100,
+// }))
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/user',authorizationMiddleware,userRouter)
 
