@@ -20,10 +20,6 @@ app.use(cors())
 app.use(rateLimiter({
         windowMs: 15 * 60 * 1000, 
         limit: 100,
-        standardHeaders: 'draft-7', 
-        legacyHeaders: false, 
-
-
 }))
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/user',authorizationMiddleware,userRouter)
