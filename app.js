@@ -4,6 +4,8 @@ const app = express()
 require('dotenv').config()
 const helmet = require('helmet')
 const xss = require('xss-clean')
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
 //const rateLimiter = require('express-rate-limit')
 const cors = require('cors')
 const connectToDb = require('./db/connection')
@@ -24,9 +26,10 @@ app.use(cors())
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/user',authorizationMiddleware,userRouter)
 
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(notfound)
 app.use(errorHandler)
+
 
 const start = async()=>{
     try{
