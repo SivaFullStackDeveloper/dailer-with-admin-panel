@@ -5,7 +5,7 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "https://dailer-backend.onrender.com/",
+  "host": "dailer-backend.onrender.com/",
   "basePath": "/",
   "schemes": [
     "https"
