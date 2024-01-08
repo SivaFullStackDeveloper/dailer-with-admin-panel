@@ -5,10 +5,10 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "dailer-backend.onrender.com",
+  "host": "localhost:2000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/api/v1/auth/userAlreadyExists": {
@@ -161,7 +161,7 @@
         }
       }
     },
-    "/api/v1/user/updateUser": {
+    "/api/v1/user/updateuser": {
       "patch": {
         "description": "",
         "parameters": [
