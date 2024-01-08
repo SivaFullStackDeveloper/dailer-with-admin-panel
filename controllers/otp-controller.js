@@ -46,7 +46,7 @@ const sendOtp = async(req,res)=>{
             otp:code
         })
         
-        transporter.sendMail({
+        await transporter.sendMail({
                 from:'sivasivacoa@gmail.com',
                 to:otpSchema.email,
                 subject: 'Dailer OTP to Reset Password',
@@ -109,6 +109,7 @@ const sendOtp = async(req,res)=>{
                 </html>
                 `
             },(err,info)=>{
+                console.log(err)
             if(err){
                 res.status(404).json({
                     //sorry something went wrong. Not able to deliver otp to the mail id 
