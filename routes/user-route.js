@@ -7,6 +7,6 @@ const upload = multer();
 
 
 router.route('/updateBusiness').patch(updateBusinessUser)
-router.route('/updateUser',upload.any('profilePicture')).patch(updateUser)
+router.route('/updateuser',upload.any('profilePicture')).patch(updateUser)
 
 module.exports = router

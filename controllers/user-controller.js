@@ -3,6 +3,9 @@ const { StatusCodes } = require('http-status-codes')
 const UserSchema = require('../models/auth-model')
 const  BadRequestError = require('../error/bad-request')
 const  UnAuthenticatedError = require('../error/unauthenticated')
+const stream = require('stream');
+const fs = require('fs')
+const { google } = require('googleapis');
 
 
 let picture = "";
@@ -86,14 +89,16 @@ const updateBusinessUser = async(req,res)=>{
 
 
 const updateUser = async(req,res)=>{
-  const { files } = req;
-  const user = await UserSchema.findByIdAndUpdate({_id:req.body.id},{...req.body},{
-    new: true,
-    runValidators: true,
-  }) 
-         const credits = await authorize()
-        await upload2(files[0],credits)
+  const {files}  = req;
+  if(files.length!==0){
+    const credits = await authorize()
+    await upload2(files[0],credits)
+  }
 
+  const user = await UserSchema.findByIdAndUpdate({_id:req.body.id},{...req.body},{
+    new:true,
+    runValidators: true,
+})
   const updateUser = await UserSchema.findByIdAndUpdate({_id:req.body.id},{profilePicture:picture},{
     new:true,
     runValidators: true,
@@ -102,14 +107,14 @@ const updateUser = async(req,res)=>{
  res.status(StatusCodes.OK).json({
   data:[{
     id:updateUser._id,
-    name:user.name,
+    name:updateUser.name,
     ownerName:updateUser.ownerName,
     email:updateUser.email,
     pinCode:updateUser.pinCode,
     phoneNumber:updateUser.phoneNumber,
     state:updateUser.state,
-    district:usupdateUserer.district,
-    city:usupdateUserer.city,
+    district:updateUser.district,
+    city:updateUser.city,
     webLink:updateUser.webLink,
     alternateNumber:updateUser.alternateNumber,
     profilePicture:updateUser.profilePicture,
