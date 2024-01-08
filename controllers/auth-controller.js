@@ -166,6 +166,7 @@ const login = async(req,res)=>{
             city:user.city,
             webLink:user.webLink,
             alternateNumber:user.alternateNumber,
+            profilePicture:user.profilePicture,
             createdAt:user.createdAt,
             businessDetails:user.businessDetails,token:token
         }],
