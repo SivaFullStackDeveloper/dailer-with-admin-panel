@@ -60,6 +60,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: "user",
       },
+      profilePicture:{
+        type:String,
+      },
     businessDetails:{
      
         username :{
@@ -118,6 +121,9 @@ const UserSchema = new mongoose.Schema({
         WebLink:{
             type:String,
             default:" "  
+        },
+        businessPicture:{
+            type:String,  
         },
      
     },
