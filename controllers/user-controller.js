@@ -89,17 +89,19 @@ const updateBusinessUser = async(req,res)=>{
 
 
 const updateUser = async(req,res)=>{
-  const {files}  = req;
-  if(files.length!==0){
-    const credits = await authorize()
-    await upload2(files[0],credits)
-  }
 
-  const user = await UserSchema.findByIdAndUpdate({_id:req.body.id},{...req.body},{
+  const { files } = req;
+  if(files.length!==0){
+      const credits = await authorize()
+      await upload2(files[0],credits)
+    }
+
+
+  const user = await UserSchema.findByIdAndUpdate({_id:req.user.userId},{...req.body},{
     new:true,
     runValidators: true,
 })
-  const updateUser = await UserSchema.findByIdAndUpdate({_id:req.body.id},{profilePicture:picture},{
+  const updateUser = await UserSchema.findByIdAndUpdate({_id:req.user.userId},{profilePicture:picture},{
     new:true,
     runValidators: true,
 })

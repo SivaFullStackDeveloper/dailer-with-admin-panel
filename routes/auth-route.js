@@ -10,7 +10,7 @@ const upload = multer();
 
 router.post('/userAlreadyExists',userAlreadyExists)
 router.post('/login',login)
-router.post('/register',upload.any('profilePicture'),register)
+router.post('/register',upload.any(),register)
 router.post('/sendOTP',sendOtp)
 router.post('/verifyOTP',verifyOTP)
 
