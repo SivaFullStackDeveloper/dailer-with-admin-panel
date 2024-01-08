@@ -100,11 +100,12 @@ const userAlreadyExists = async(req,res)=>{
 }
 
 const register = async(req,res)=>{
-  
-    
+
         const { files } = req;
-        const credits = await authorize()
-        await upload2(files[0],credits)
+        if(files.length!==0){
+            const credits = await authorize()
+            await upload2(files[0],credits)
+          }
      
     const user = await UserSchema.create(req.body)
     const token =  user.createJwt(user._id,user.name)
