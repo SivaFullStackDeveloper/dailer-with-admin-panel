@@ -1,38 +1,59 @@
 const { StatusCodes } = require('http-status-codes');
-const JobsSchema = require('../models/jobs-model')
+const categoriesSchema = require('../models/categories-model')
 
 
 
-const getAllJobs = async(req,res)=>{
-    
-    const allJobs = await JobsSchema.find({createdBy : req.user.userId})
-    res.status(StatusCodes.OK).json({allJobs});
-}
-
-const getJob = async(req,res)=>{
-    const {id}=req.params
-    const jobs = await JobsSchema.findOne({_id:id})
-    res.status(StatusCodes.OK).json({jobs});
+const getAllCategories = async(req,res)=>{
+    let allCategories = await categoriesSchema.find({})
+    console.log(allCategories)
+    res.status(StatusCodes.OK).json({
+        data:allCategories,
+    });
 }
 
 
-const createJob = async (req, res) => {
-
-    req.body.createdBy = req.user.userId;
-    const job = await JobsSchema.create(req.body);
-    res.status(StatusCodes.CREATED).json({ job });
-
+const createCategorie = async (req, res) => {
+    const {categoryName,subCategory} = req.body
+    const categories = await categoriesSchema.find({ categoryName:`${categoryName}`,subCategory:`${subCategory}`});
+    if(categories){
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            "msg":"sorry this category already exists",
+            statuscode:StatusCodes.BAD_REQUEST,
+            success:false,
+        });}else{
+            const categories = await categoriesSchema.create(req.body);
+            return res.status(StatusCodes.CREATED).json({categories});
+        }
   };
 
-const updateJob = async(req,res)=>{
-    res.status(200).send('updateJob api');
+const updateCategorie = async(req,res)=>{
+    const {categoryName,subCategory} = req.body
+    const categories = await categoriesSchema.find({ categoryName:`${categoryName}`,subCategory:`${subCategory}`});
+    if(categories){
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            "msg":"sorry this category already exists",
+            statuscode:StatusCodes.BAD_REQUEST,
+            success:false,
+        });
+    }else{
+        const categories = await categoriesSchema.findByIdAndUpdate({_id:req.body.id},{...req.body},{
+            new:true,
+            runValidators:true,
+        })
+        res.status(200).json({categories});
+    }
+
 }
 
-const deleteJob = async(req,res)=>{
-    res.status(200).send('deleteJob api');
+const deleteCategorie = async(req,res)=>{
+    const categories = await categoriesSchema.findByIdAndDelete({_id:req.params.id})
+    if(categories){
+        return res.status(200).json({msg:'Sucessfully deleted',statuscode:200});
+    }
+    res.status(500).json({msg:'Something went wrong',statuscode:500});
 }
 
 
 
 
-module.exports = {getAllJobs,getJob,createJob,updateJob,deleteJob}
+module.exports = {getAllCategories,createCategorie,updateCategorie,deleteCategorie}

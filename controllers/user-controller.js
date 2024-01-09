@@ -2,26 +2,6 @@ require('express-async-errors')
 const { StatusCodes } = require('http-status-codes')
 const UserSchema = require('../models/auth-model')
 
-const updateBusinessUser = async(req,res)=>{
-  const user = await UserSchema.findByIdAndUpdate({_id:req.body.id},{businessDetails:req.body},{
-    new: true,
-    runValidators: true,
-  }) 
-
-
- res.status(StatusCodes.OK).json({ 
-  data:[...user.businessDetails],
-  "msg":"Data updated successfully",
-  "statusCode":StatusCodes.OK,
-  "success":true,
-})
-}
-
-
-
-
-
-
 
 const updateUser = async(req,res)=>{
   console.log(req.file)
@@ -59,7 +39,7 @@ const updateUser = async(req,res)=>{
 
 }
 
-module.exports = {updateBusinessUser,updateUser}
+module.exports = {updateUser}
 
 
 

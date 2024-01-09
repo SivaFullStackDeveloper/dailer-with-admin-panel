@@ -13,6 +13,9 @@ const notfound = require('./middleware/notfound')
 const errorHandler = require('./middleware/error-handler')
 const authRouter = require('./routes/auth-route')
 const userRouter = require('./routes/user-route')
+const businessUserRouter = require('./routes/business-route')
+const categoryRouter = require('./routes/categories-route')
+const citiesRouter = require('./routes/cities-route')
 const authorizationMiddleware = require('./middleware/authorization')
 
 app.use('/uploads',express.static('uploads'))
@@ -25,6 +28,9 @@ app.use(xss())
 app.use(cors())
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/user',authorizationMiddleware,userRouter)
+app.use('/api/v1/category',categoryRouter)
+app.use('/api/v1/cities',citiesRouter)
+app.use('/api/v1/businessUser',authorizationMiddleware,businessUserRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 

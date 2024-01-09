@@ -1,6 +1,7 @@
+require('express-async-errors')
 const express = require('express')
 const router  = express.Router()
-const {updateUser} = require('../controllers/user-controller')
+const {updateBusinessUser} = require('../controllers/business-controller')
 const multer  = require('multer')
 const fileFilter = (req, file, cb) => {
     if((file.mimetype).includes('jpeg') || (file.mimetype).includes('png') || (file.mimetype).includes('jpg')){
@@ -19,13 +20,15 @@ var storage = multer.diskStorage({
       cb(null,Date.now() + "--" +file.originalname)
     }
 })
-var upload = multer({ storage: storage })
+var upload = multer({ storage: storage }).fields([
+{name:"businessPictures",maxCount:10},
+{name:"businessProfilePhoto",maxCount:1},
+{name:"businessCoverPhoto",maxCount:1}
+])
 
-router.use(upload.single('profilePicture'))
 
 
-router.route('/updateUser').patch(updateUser)
-
+router.patch('/updateBusiness',upload,updateBusinessUser)
 
 
 module.exports = router

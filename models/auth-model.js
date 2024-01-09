@@ -12,11 +12,11 @@ const UserSchema = new mongoose.Schema({
     },
     jobTitle:{
         type:String,
-        required:[true, "Please Provide Job title"],
+     
     },
     companyName:{
         type:String,
-        required:[true, "Please Provide company name"],
+    
     },
     password:{
         type:String,
@@ -45,12 +45,15 @@ const UserSchema = new mongoose.Schema({
     },
     city:{
         type:String,
+        required:[true, "Please Provide city"],
     },
     district:{
         type:String,
+        required:[true, "Please Provide district"],
     },
     state:{
         type:String,
+        required:[true, "Please Provide state"],
     },
     pinCode:{
         type:String,
@@ -63,71 +66,12 @@ const UserSchema = new mongoose.Schema({
       profilePicture:{
         type:String,
       },
-    businessDetails:{
-     
-        username :{
-            type:String,
-            default:" "
-         
-        },
-        businessName:{
-            type:String,
-            default:" " 
-        },
-        mailId :{
-            type:String,
-            default:" "
-        },
-        phoneNum1:{
-            type:String,
-            default:" "
-        },
-        phoneNumAlternative:{
-            type:String,
-            default:" "
-        },
-        district:{
-            type:String,
-            default:" "
-        },
-        cityName:{
-            type:String,
-            default:" " 
-        },
-        stateName: {
-            type:String,
-            default:" "   
-        },
-        address:{
-            type:String,
-            default:" " 
-        },
-        category:{
-            type:String,
-            default:" " 
-        },
-        Subcategories: {
-            type:String,
-            default:" " 
-        },
-        PinCode:{
-            type:String,
-            default:" " 
-        },
-        isLoggedIn:{
-            type:String,
-            default:" " 
-        },
-        WebLink:{
-            type:String,
-            default:" "  
-        },
-        businessPicture:{
-            type:String,  
-        },
-     
+      businessRegister:{
+        type:Boolean,
+        default:false,
+      },
     },
-},  { timestamps: true }
+     { timestamps: true }
 );
 
 
@@ -147,3 +91,16 @@ UserSchema.methods.comparePassword = async function(candidatePassword){
 }
 
 module.exports = mongoose.model('User',UserSchema)
+
+
+// categories: {
+//     name:String,
+//     subcategory:{
+//         name:String,
+//     },
+// }
+// metropolitiancities:{
+//     subcities:{
+//     }
+// }
+
