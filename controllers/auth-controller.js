@@ -111,7 +111,8 @@ const login = async(req,res)=>{
             alternateNumber:user.alternateNumber,
             profilePicture:user.profilePicture,
             createdAt:user.createdAt,
-            businessDetails:user.businessDetails,token:token
+            businessRegister:user.businessRegister,
+            token:token
         }],
         "msg":"user loggedIn successfully",
         "statusCode":StatusCodes.OK,

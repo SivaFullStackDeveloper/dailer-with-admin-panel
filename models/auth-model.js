@@ -93,14 +93,3 @@ UserSchema.methods.comparePassword = async function(candidatePassword){
 module.exports = mongoose.model('User',UserSchema)
 
 
-// categories: {
-//     name:String,
-//     subcategory:{
-//         name:String,
-//     },
-// }
-// metropolitiancities:{
-//     subcities:{
-//     }
-// }
-
