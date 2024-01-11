@@ -8,8 +8,7 @@ const citiesSchema = new mongoose.Schema({
         type:String,
     },
     city:{
-        cityName:{
-            type:String,
+         type:String,
         },
         mandal:{
             type:String,
@@ -17,15 +16,8 @@ const citiesSchema = new mongoose.Schema({
         village:{
             type:String,
         },
-    },
-    metroCity:{
-        metroCityName:{
-            type:String,
-        },
-        subcity :{
-            type:String,
-        }
-    },
+        
+   
 })
 
 module.exports = mongoose.model('citiesSchema',citiesSchema)

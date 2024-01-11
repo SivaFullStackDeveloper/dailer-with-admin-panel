@@ -8,7 +8,7 @@ router.route('/:id').patch(updateCities).delete(deleteCities)
 router.route('/states').get(getAllStates)
 router.route('/districts').get(getAllDistricts)
 router.route('/cities').get(getAllCity)
-router.route('/manadal').get(getAllMandal)
+router.route('/mandal').get(getAllMandal)
 router.route('/village').get(getAllVilage)
 
 

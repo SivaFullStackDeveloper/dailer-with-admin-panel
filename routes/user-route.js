@@ -1,6 +1,6 @@
 const express = require('express')
 const router  = express.Router()
-const {updateUser} = require('../controllers/user-controller')
+const {updateUser,getUser} = require('../controllers/user-controller')
 const multer  = require('multer')
 const fileFilter = (req, file, cb) => {
     if((file.mimetype).includes('jpeg') || (file.mimetype).includes('png') || (file.mimetype).includes('jpg')){
@@ -25,6 +25,8 @@ router.use(upload.single('profilePicture'))
 
 
 router.route('/updateUser').patch(updateUser)
+
+router.route('/getUser').get(getUser)
 
 
 
