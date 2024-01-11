@@ -1,13 +1,30 @@
 const mongoose = require('mongoose')
 
 const citiesSchema = new mongoose.Schema({
-        metropolitianCities:{
+    state:{
         type:String,
-        required:[true,"Please Provide Metropolitian Cities"],
     },
-    subcities:{
+    district:{
         type:String,
-        required:[true,"Please Provide sub city"],
+    },
+    city:{
+        cityName:{
+            type:String,
+        },
+        mandal:{
+            type:String,
+        },
+        village:{
+            type:String,
+        },
+    },
+    metroCity:{
+        metroCityName:{
+            type:String,
+        },
+        subcity :{
+            type:String,
+        }
     },
 })
 

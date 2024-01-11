@@ -11,6 +11,9 @@ const categoriesSchema = new mongoose.Schema({
         required:[true,"Please Provide subCategory "],
         maxLength :100,
     },
+    keyWords:{
+        type:String,
+    },
 })
 
 module.exports = mongoose.model('categoriesSchema',categoriesSchema)

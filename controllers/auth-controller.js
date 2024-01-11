@@ -40,7 +40,6 @@ const userAlreadyExists = async(req,res)=>{
 
 const register = async(req,res)=>{
         const paths = req.file.path.replace(/\\/g, "/")
-        console.log(req.file)
         const url = "https://dailer-backend.onrender.com/" + paths
         const user = await UserSchema.create(req.body);
         console.log(user._id)
@@ -69,7 +68,7 @@ const register = async(req,res)=>{
             webLink:updateUser.webLink,
             alternateNumber:updateUser.alternateNumber,
             profilePicture:updateUser.profilePicture,
-            businessDetails:updateUser.businessDetails,
+            businessRegister:user.businessRegister,
             createdAt:updateUser.createdAt,
             token:token
         }],
@@ -86,39 +85,49 @@ const login = async(req,res)=>{
         throw new BadRequestError("Invalid credentials")
     }
     const user = await UserSchema.findOne({email})
-    if(!user){
-        throw new UnAuthenticatedError('Invalid Credentials')  
+    if(user.userBlocked ===true){
+        res.status(404).json({
+            msg:"User is blocked",
+            success:false,
+            statuscode:404,
+            isBlockedOrNot:true,
+        })
+    }else{
+        if(!user){
+            throw new UnAuthenticatedError('Invalid Credentials')  
+        }
+    
+        const isPassword = await user.comparePassword(password)
+        if(!isPassword){
+            throw new UnAuthenticatedError('Invalid Credentials')  
+        }
+     const token = user.createJwt(user._id,user.name)
+    
+        res.status(StatusCodes.OK).json({
+            data:[{
+                id:user._id,
+                name:user.name,
+                ownerName:user.ownerName,
+                email:user.email,
+                pinCode:user.pinCode,
+                phoneNumber:user.phoneNumber,
+                state:user.state,
+                district:user.district,
+                city:user.city,
+                webLink:user.webLink,
+                alternateNumber:user.alternateNumber,
+                profilePicture:user.profilePicture,
+                createdAt:user.createdAt,
+                businessRegister:user.businessRegister,
+                token:token
+            }],
+            "msg":"user loggedIn successfully",
+            "statusCode":StatusCodes.OK,
+            "success":true,
+            isBlockedOrNot:false,
+         })
     }
 
-    const isPassword = await user.comparePassword(password)
-    if(!isPassword){
-        throw new UnAuthenticatedError('Invalid Credentials')  
-    }
- const token = user.createJwt(user._id,user.name)
-
-    res.status(StatusCodes.OK).json({
-        data:[{
-            id:user._id,
-            name:user.name,
-            ownerName:user.ownerName,
-            email:user.email,
-            pinCode:user.pinCode,
-            phoneNumber:user.phoneNumber,
-            state:user.state,
-            district:user.district,
-            city:user.city,
-            webLink:user.webLink,
-            alternateNumber:user.alternateNumber,
-            profilePicture:user.profilePicture,
-            createdAt:user.createdAt,
-            businessRegister:user.businessRegister,
-            token:token
-        }],
-        "msg":"user loggedIn successfully",
-        "statusCode":StatusCodes.OK,
-        "success":true,
-
-     })
 }
 
 

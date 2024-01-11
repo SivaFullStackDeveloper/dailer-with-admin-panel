@@ -2,16 +2,17 @@ const mongoose = require('mongoose')
 
 
 const businessDetailsSchema = new mongoose.Schema({
-    userid:{
+    userId:{
         type:String,
-        required:[true, "Please Provide userid"],
+        required:[true, "Please Provide userId"], 
     },
-        businessName:{
+    businessName:{
             type:String,
             required:[true, "Please Provide businessName"],
         },
         mailId:{
             type:String,
+            default:""
    
         },
         phoneNum1:{
@@ -19,16 +20,20 @@ const businessDetailsSchema = new mongoose.Schema({
             required:[true, "Please Provide phoneNum1"],
         },
         phoneNumAlternative:{
-            type:String
+            type:String,
+            default:""
         },
         district:{
-            type:String
+            type:String,
+            default:""
         },
         cityName:{
-            type:String
+            type:String,
+            default:""
         },
         stateName:{
-            type:String
+            type:String,
+            default:""
         },
         address:{
             type:String,
@@ -47,37 +52,47 @@ const businessDetailsSchema = new mongoose.Schema({
             required:[true, "Please Provide PinCode"],
         },
         isLoggedIn :{
-            type:String
+            type:String,
+            default:""
         },
         WebLink :{
-            type:String
+            type:String,
+            default:""
         },
         businessCoverPhoto:{
-            type:String
+            type:String,
+            default:""
         },
         businessProfilePhoto:{
-            type:String
+            type:String,
+            default:""
         },
         businessGallery:[String],
         comments:{
-            type:String
+            type:String,
+            default:""
         },
         rating:{
-            type:String
+            type:String,
+            default:""
         },
         reviews:{
-            type:String
+            type:String,
+            default:""
         },
         paymentsAccepted:{
             type:String,
+            default:""
 
         },
         yearOfEstablishment:{
             type:String,
+            default:""
     
         },
         businessAboutUs:{
             type:String,
+            default:""
 
         },    
         workingHours:{
@@ -86,6 +101,7 @@ const businessDetailsSchema = new mongoose.Schema({
         },
         keyWords:{
             type:String,
+            default:""
 
         },
         location:{
@@ -93,24 +109,30 @@ const businessDetailsSchema = new mongoose.Schema({
             required:[true, "Please Provide location"],
         },
         socialMediaLink:{
-            type:String
+            type:String,
+            default:""
         },
         languageSpoken:{
             type:String,
+            default:""
            
         },
         parkingAvilbility:{
             type:String,
+            default:""
 
         },
         videoTestimons:{
-            type:String
+            type:String,
+            default:""
         },
         numberOfStaff:{
-            type:String
+            type:String,
+            default:""
         },
         achivementsAwards:{
-            type:String
+            type:String,
+            default:""
         },
         fastResponseTime:{
             type:Number,
@@ -122,6 +144,7 @@ const businessDetailsSchema = new mongoose.Schema({
         },
         getDicrection:{
             type:String,
+            default:""
         },
         verified:{
             type:Boolean,
@@ -129,6 +152,7 @@ const businessDetailsSchema = new mongoose.Schema({
         },
         holidays:{
             type:[String],
+            default:""
         }
 })
 

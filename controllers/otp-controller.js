@@ -114,14 +114,14 @@ const sendOtp = async(req,res)=>{
                 res.status(404).json({
                     //sorry something went wrong. Not able to deliver otp to the mail id 
                     "message":`sorry something went wrong. Not able to deliver otp to the mail id  ${email}`,
-                    "status code":404
+                    "statusCode":404
                 })
             }
             else {
               
                 res.status(200).json({
                     "message":`OTP Sent to email id  ${email}`,
-                    "status code":200,
+                    "statusCode":200,
                     "success":true
                 })
     
@@ -167,7 +167,7 @@ const verifyOTP = async(req,res)=>{
         }  
  
 
-
+        
 
 module.exports = {sendOtp,verifyOTP}
 
