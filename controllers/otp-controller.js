@@ -138,6 +138,7 @@ const verifyOTP = async(req,res)=>{
     const salt = await bcrypt.genSalt(10)
     newPassword = await bcrypt.hash(newPassword,salt)
     const OTPSchemaGetter = await OTPSchema.findOne({email})
+    console.log(OTPSchemaGetter)
     if(!OTPSchemaGetter){
          res.status(StatusCodes.BAD_REQUEST).json({
             message:`OTP Expired or Something went wrong please Try After Sometime `,

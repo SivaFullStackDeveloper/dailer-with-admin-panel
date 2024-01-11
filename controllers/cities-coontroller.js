@@ -3,6 +3,7 @@ const citiesSchema = require('../models/cities-model')
 
 
 
+
 const getAllCities = async(req,res)=>{
     let allCities = await citiesSchema.find({})
     res.status(StatusCodes.OK).json({
@@ -43,6 +44,40 @@ const deleteCities = async(req,res)=>{
 }
 
 
+const getAllStates = async(req,res)=>{
+    let allCities = await citiesSchema.find({})
+    res.status(StatusCodes.OK).json({
+        data:allCities,
+    });
+}
 
 
-module.exports = {getAllCities,createCities,updateCities,deleteCities}
+const getAllDistricts = async(req,res)=>{
+    let allCities = await citiesSchema.find({})
+    res.status(StatusCodes.OK).json({
+        data:allCities,
+    });
+}
+
+
+const getAllCity = async(req,res)=>{
+    let allCities = await citiesSchema.find({})
+    res.status(StatusCodes.OK).json({
+        data:allCities,
+    });
+}
+const getAllMandal= async(req,res)=>{
+    let allCities = await citiesSchema.find({})
+    res.status(StatusCodes.OK).json({
+        data:allCities,
+    });
+}
+
+const getAllVilage= async(req,res)=>{
+    let allCities = await citiesSchema.find({})
+    res.status(StatusCodes.OK).json({
+        data:allCities,
+    });
+}
+
+module.exports = {getAllCities,createCities,updateCities,deleteCities,getAllStates,getAllDistricts,getAllCity,getAllMandal,getAllVilage}

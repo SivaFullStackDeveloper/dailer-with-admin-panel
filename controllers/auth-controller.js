@@ -80,11 +80,11 @@ const register = async(req,res)=>{
 
 
 const login = async(req,res)=>{
-    const {email,password} = req.body
-    if(!email || !password){
+    const {phoneNumber,password} = req.body
+    if(!phoneNumber || !password){
         throw new BadRequestError("Invalid credentials")
     }
-    const user = await UserSchema.findOne({email})
+    const user = await UserSchema.findOne({phoneNumber})
     if(user.userBlocked ===true){
         res.status(404).json({
             msg:"User is blocked",
