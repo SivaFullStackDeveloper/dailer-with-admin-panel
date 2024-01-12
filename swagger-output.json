@@ -5,10 +5,10 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "localhost:2000",
+  "host": "https://dailer-backend.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/api/v1/auth/userAlreadyExists": {
@@ -48,7 +48,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
+                "phoneNumber": {
                   "example": "any"
                 },
                 "password": {
@@ -59,8 +59,8 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -132,6 +132,16 @@
         }
       }
     },
+    "/api/v1/admin/registerUserCount": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/user/updateUser": {
       "patch": {
         "description": "",
@@ -145,6 +155,23 @@
         "responses": {
           "default": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/user/getUser": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -172,21 +199,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "categoryName": {
-                  "example": "any"
-                },
-                "subCategory": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -234,24 +246,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "example": "any"
-                },
-                "categoryName": {
-                  "example": "any"
-                },
-                "subCategory": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -284,21 +278,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "metropolitianCities": {
-                  "example": "any"
-                },
-                "subcities": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -346,29 +325,116 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "example": "any"
-                },
-                "metropolitianCities": {
-                  "example": "any"
-                },
-                "subcities": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/cities/states": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/cities/districts": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/cities/cities": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/cities/mandal": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/cities/village": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "mandal",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
           }
         }
       }
@@ -386,6 +452,40 @@
         "responses": {
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/businessUser/getBusinessDetails": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/businessUser/getCategoryBusinessList": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
