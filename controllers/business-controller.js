@@ -133,4 +133,29 @@ const getCategoryBusinessList = async(req,res)=>{
 
 }
 
-module.exports = {updateBusinessUser,getBusinessDetails,getCategoryBusinessList}
+const getAllBusinessList = async(req,res)=>{
+  let { verified, rating, businessName, keyWords, subcategories,  } = req.query;
+  const queryObject = {};
+  if (rating) {
+    rating = {'$gte':rating}
+  }
+  console.log(rating)
+  if (verified) {
+    queryObject.verified = verified === 'true' ? true : false;
+  }
+  if(businessName){
+    queryObject.businessName = { $regex: businessName, $options: 'i' }
+  }
+  if(subcategories){
+    queryObject.subcategories = { $regex: subcategories, $options: 'i' }
+  }
+  if(keyWords){
+    queryObject.keyWords = { $regex: keyWords, $options: 'i' }
+  }
+  console.log(queryObject)
+  const businessDetails = await businessDetailsSchema.find(queryObject)
+  res.status(200).json({businessDetails})
+
+}
+
+module.exports = {updateBusinessUser,getBusinessDetails,getCategoryBusinessList,getAllBusinessList}

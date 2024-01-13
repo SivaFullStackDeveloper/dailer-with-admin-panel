@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const addRatingAndComments = require('./addRatingAndComments-model')
 
 
 const businessDetailsSchema = new mongoose.Schema({
@@ -68,22 +69,23 @@ const businessDetailsSchema = new mongoose.Schema({
             default:""
         },
         businessGallery:[String],
-        comments:{
-            type:String,
-            default:""
-        },
         rating:{
-            type:String,
-            default:""
+            type:Number,
+            default:0,
         },
-        reviews:{
-            type:String,
-            default:""
+        reviews:[
+            String,
+        //     reviewComments:{
+        //     type:String,
+        //     default:""
+        // },
+    ],
+        premiumAccountOrNot:{
+            type:Boolean
         },
         paymentsAccepted:{
             type:String,
             default:""
-
         },
         yearOfEstablishment:{
             type:String,
@@ -135,12 +137,12 @@ const businessDetailsSchema = new mongoose.Schema({
             default:""
         },
         fastResponseTime:{
-            type:Number,
-            default:0,
+            type:String,
+            default:'0',
         },
         currentResponseTime:{
             type:Number,
-            default:0,
+            default:'0',
         },
         getDicrection:{
             type:String,
@@ -153,6 +155,9 @@ const businessDetailsSchema = new mongoose.Schema({
         holidays:{
             type:[String],
             default:""
+        },
+        ratingAndComments:{
+            type:[addRatingAndComments]
         }
 })
 

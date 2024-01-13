@@ -39,20 +39,17 @@ const userAlreadyExists = async(req,res)=>{
 }
 
 const register = async(req,res)=>{
-        const paths = req.file.path.replace(/\\/g, "/")
-        const url = "https://dailer-backend.onrender.com/" + paths
+    let url;
+    if(req.file===undefined){
+        url = "https://dailer-backend.onrender.com/uploads/profile.png" 
         const user = await UserSchema.create(req.body);
-        console.log(user._id)
         const token =  await user.createJwt(user._id,user.name)
         console.log(token)
-
-
-
         const updateUser = await UserSchema.findByIdAndUpdate({_id:user._id},{profilePicture: url},{
                 new:true,
                 runValidators: true,
             })
-
+ 
  
     res.status(StatusCodes.CREATED).json({
         data:[{
@@ -64,7 +61,7 @@ const register = async(req,res)=>{
             phoneNumber:updateUser.phoneNumber,
             state:updateUser.state,
             district:updateUser.district,
-            city:updateUser.city,
+            city:updateUser.city, 
             webLink:updateUser.webLink,
             alternateNumber:updateUser.alternateNumber,
             profilePicture:updateUser.profilePicture,
@@ -74,7 +71,42 @@ const register = async(req,res)=>{
         }],
         "msg":"user registered successfully",
         "statusCode":StatusCodes.OK,
-       })
+       }) 
+    }  else{
+        const paths = req.file.path.replace(/\\/g, "/")
+        url = "https://dailer-backend.onrender.com/" + paths
+       const user = await UserSchema.create(req.body);
+       const token =  await user.createJwt(user._id,user.name)
+       console.log(token)
+       const updateUser = await UserSchema.findByIdAndUpdate({_id:user._id},{profilePicture: url},{
+               new:true,
+               runValidators: true,
+           })
+
+
+   res.status(StatusCodes.CREATED).json({
+       data:[{
+           id:updateUser._id,
+           name:updateUser.name,
+           ownerName:updateUser.ownerName,
+           email:updateUser.email,
+           pinCode:updateUser.pinCode,
+           phoneNumber:updateUser.phoneNumber,
+           state:updateUser.state,
+           district:updateUser.district,
+           city:updateUser.city,
+           webLink:updateUser.webLink,
+           alternateNumber:updateUser.alternateNumber,
+           profilePicture:updateUser.profilePicture,
+           businessRegister:user.businessRegister,
+           createdAt:updateUser.createdAt,
+           token:token
+       }],
+       "msg":"user registered successfully",
+       "statusCode":StatusCodes.OK,
+      })
+    }
+    
 }
 
 
@@ -119,7 +151,8 @@ const login = async(req,res)=>{
                 profilePicture:user.profilePicture,
                 createdAt:user.createdAt,
                 businessRegister:user.businessRegister,
-                token:token
+                token:token,
+                userBlocked:user.userBlocked,
             }],
             "msg":"user loggedIn successfully",
             "statusCode":StatusCodes.OK,
