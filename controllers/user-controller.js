@@ -7,7 +7,7 @@ const likesModel = require('../models/likeOrRmoveLike-model')
 
 
 const getUser = async(req,res)=>{
-  const user = await UserSchema.findOne({_id:req.user.userId},)
+  const user = await UserSchema.findOne({_id:req.body.userId},)
   res.status(200).json({
         id: user._id,
         name: user.name,
@@ -39,11 +39,11 @@ const updateUser = async(req,res)=>{
 
   if(req.file===undefined){
     url = "https://dailer-backend.onrender.com/uploads/profile.png" 
-    const user = await UserSchema.findByIdAndUpdate({_id:req.user.userId},{...req.body},{
+    const user = await UserSchema.findByIdAndUpdate({_id:req.body.userId},{...req.body},{
       new:true,
       runValidators: true,
   })
-    const updateUser = await UserSchema.findByIdAndUpdate({_id:req.user.userId},{profilePicture:url},{
+    const updateUser = await UserSchema.findByIdAndUpdate({_id:req.body.userId},{profilePicture:url},{
       new:true,
       runValidators: true,
   })
@@ -71,11 +71,11 @@ const updateUser = async(req,res)=>{
   }else{
     const paths = req.file.path.replace(/\\/g, "/")
     url = "https://dailer-backend.onrender.com/" + paths
-    const user = await UserSchema.findByIdAndUpdate({_id:req.user.userId},{...req.body},{
+    const user = await UserSchema.findByIdAndUpdate({_id:req.body.userId},{...req.body},{
       new:true,
       runValidators: true,
   })
-    const updateUser = await UserSchema.findByIdAndUpdate({_id:req.user.userId},{profilePicture:url},{
+    const updateUser = await UserSchema.findByIdAndUpdate({_id:req.body.userId},{profilePicture:url},{
       new:true,
       runValidators: true,
   })
@@ -104,9 +104,8 @@ const updateUser = async(req,res)=>{
 }
 
 const addCommentRating = async(req,res)=>{
-  const user = await UserSchema.findOne({_id:req.user.userId},)
+  const user = await UserSchema.findOne({_id:req.body.userId},)
   const alreadyPostedComment=    await businessModel.findOne(  { _id: req.body.businessId, 'ratingAndComments.userId': req.user.userId },)
-
   if(alreadyPostedComment){
       res.status(404).json({
        msg:"sorry you have already added your comment if you want please try to update",
@@ -134,7 +133,7 @@ const addCommentRating = async(req,res)=>{
     try {
         const business = await businessModel.findOne({ _id: req.body.businessId });
         const commentIndex = business.ratingAndComments.findIndex(
-            (comment) => comment.userId.toString() === req.user.userId
+            (comment) => comment.userId.toString() === req.body.userId
         );
 
         if (commentIndex !== -1) {
@@ -194,7 +193,7 @@ const likeOrRemoveLike = async(req,res)=>{
 
   if (req.body.likedOrNot === false) {
    
-    comment.likes = comment.likes.filter((like) => like.userId !== req.user.userId);
+    comment.likes = comment.likes.filter((like) => like.userId === req.body.userId);
   
     await business.save();
 
@@ -203,12 +202,12 @@ const likeOrRemoveLike = async(req,res)=>{
     businessDetails:business,
     statusCode:201
     })
-  }else{
-let like = comment.likes.find((like) => like.userId === req.user.userId);
-if(!like){
+  }else {
+let like = comment.likes.find((like) => like.userId === req.body.userId);
 
-  await comment.likes.push(req.user.userId,true);
-}
+
+  await comment.likes.push({_id:req.body.userId,likedOrNot:true});
+
 
 await business.save();
 

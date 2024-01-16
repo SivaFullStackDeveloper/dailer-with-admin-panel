@@ -1,7 +1,7 @@
 require('express-async-errors')
 const express = require('express')
 const router  = express.Router()
-const {updateBusinessUser,getBusinessDetails,getCategoryBusinessList,getAllBusinessList} = require('../controllers/business-controller')
+const {updateBusinessUser,getBusinessDetails,getCategoryBusinessList,getAllBusinessList,BusinessViwersCount} = require('../controllers/business-controller')
 const multer  = require('multer')
 const fileFilter = (req, file, cb) => {
     if((file.mimetype).includes('jpeg') || (file.mimetype).includes('png') || (file.mimetype).includes('jpg')){
@@ -32,5 +32,6 @@ router.get('/getAllBusinessList',getAllBusinessList)
 router.patch('/updateBusiness',upload,updateBusinessUser)
 router.get('/getBusinessDetails',getBusinessDetails)
 router.get('/getCategoryBusinessList',getCategoryBusinessList)
+router.post('/businessViwersCount',BusinessViwersCount)
 
 module.exports = router

@@ -25,11 +25,11 @@ const updateBusinessUser = async(req,res)=>{
 const  businessProfilePhoto = "https://dailer-backend.onrender.com/" +req.files.businessProfilePhoto[0].path.replace(/\\/g, "/")
 const   businessCoverPhoto = "https://dailer-backend.onrender.com/" +req.files.businessCoverPhoto[0].path.replace(/\\/g, "/")
 
-const businessDetailsExist = await businessDetailsSchema.findOne({userId:req.user.userId})
+const businessDetailsExist = await businessDetailsSchema.findOne({userId:req.body.userId})
 
 if(businessDetailsExist){
- const businessDetails= await businessDetailsSchema.findOneAndUpdate({userId:req.user.userId},{
-    userId:req.user.userId,
+ const businessDetails= await businessDetailsSchema.findOneAndUpdate({userId:req.body.userId},{
+    userId:req.body.userId,
     businessProfilePhoto:businessProfilePhoto,
     businessCoverPhoto:businessCoverPhoto,
     businessName: req.body.businessName,
@@ -76,7 +76,7 @@ if(businessDetailsExist){
 }else{
   const businessDetails = await businessDetailsSchema.create(
     {
-      userId:req.user.userId,
+      userId:req.body.userId,
       businessProfilePhoto:businessProfilePhoto,
       businessCoverPhoto:businessCoverPhoto,
       businessName: req.body.businessName,
@@ -121,7 +121,7 @@ if(businessDetailsExist){
 
 }
 const getBusinessDetails = async(req,res)=>{
-  const businessDetails = await businessDetailsSchema.findOne({userId:req.user.userId})
+  const businessDetails = await businessDetailsSchema.findOne({_id:req.body.businessId})
   res.status(200).json({
     businessDetails
   })
@@ -157,5 +157,12 @@ const getAllBusinessList = async(req,res)=>{
   res.status(200).json({businessDetails})
 
 }
+const BusinessViwersCount = async(req,res)=>{
+  let businessDetails = await businessDetailsSchema.find({userId:req.user.userId})
+  await businessDetailsSchema.findOneAndUpdate({userId:req.user.userId},{
+    viwersCount:businessDetails[0].viwersCount+1})
+  res.status(200).json({businessDetails})
 
-module.exports = {updateBusinessUser,getBusinessDetails,getCategoryBusinessList,getAllBusinessList}
+}
+
+module.exports = {updateBusinessUser,getBusinessDetails,getCategoryBusinessList,getAllBusinessList,BusinessViwersCount}

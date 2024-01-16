@@ -3,6 +3,10 @@ const addRatingAndComments = require('./addRatingAndComments-model')
 
 
 const businessDetailsSchema = new mongoose.Schema({
+    viwersCount:{
+        type:Number,
+        default:0,
+    },
     userId:{
         type:String,
         required:[true, "Please Provide userId"], 
