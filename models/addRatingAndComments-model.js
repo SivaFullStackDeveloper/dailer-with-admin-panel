@@ -20,5 +20,22 @@ const addRatingAndComments = new mongoose.Schema({
 },
 { timestamps: true })
 
-module.exports = addRatingAndComments
+const postComments = new mongoose.Schema({
+    userName:{
+        type:String,
+    },
+    comment:{
+        type:String,
+    },
+    userId:{
+        type:String
+    },
+    profilePicture:{
+        type:String,
+    },
+    likes:[likeOrRemoveLike]
+},
+{ timestamps: true })
+
+module.exports = {addRatingAndComments,postComments}
 

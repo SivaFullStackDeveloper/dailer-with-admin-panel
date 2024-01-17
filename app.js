@@ -15,6 +15,7 @@ const authRouter = require('./routes/auth-route')
 const adminRouter = require('./routes/admin-route')
 const userRouter = require('./routes/user-route')
 const businessUserRouter = require('./routes/business-route')
+const postRouter = require('./routes/post-route')
 const categoryRouter = require('./routes/categories-route')
 const citiesRouter = require('./routes/cities-route')
 const authorizationMiddleware = require('./middleware/authorization')
@@ -33,6 +34,7 @@ app.use('/api/v1/user',authorizationMiddleware,userRouter)
 app.use('/api/v1/category',categoryRouter)
 app.use('/api/v1/cities',citiesRouter)
 app.use('/api/v1/businessUser',authorizationMiddleware,businessUserRouter)
+app.use('/api/v1/posts',authorizationMiddleware,postRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 

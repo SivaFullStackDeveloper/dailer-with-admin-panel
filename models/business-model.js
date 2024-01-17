@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const addRatingAndComments = require('./addRatingAndComments-model')
+const {addRatingAndComments,postComments} = require('./addRatingAndComments-model')
 
 
 const businessDetailsSchema = new mongoose.Schema({
@@ -77,13 +77,7 @@ const businessDetailsSchema = new mongoose.Schema({
             type:Number,
             default:0,
         },
-        reviews:[
-            String,
-        //     reviewComments:{
-        //     type:String,
-        //     default:""
-        // },
-    ],
+        
         premiumAccountOrNot:{
             type:Boolean
         },
