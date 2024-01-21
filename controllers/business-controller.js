@@ -68,7 +68,7 @@ if(businessDetailsExist){
     holidays: req.body.holidays,
   },{
     new:true,
-    runValidators:true
+
   })
   res.status(201).json({
     businessDetails
