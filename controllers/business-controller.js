@@ -7,13 +7,13 @@ const { BadRequestError } = require('../error/bad-request')
 const updateBusinessUser = async(req,res)=>{
   console.log(req)
   console.log(req.user.userId)
-  // if(!req.files.businessPictures || !req.files.businessProfilePhoto ||!req.files.businessCoverPhoto ){
-  //   return res.status(404).json({
-  //     msg:"required fileds of businessPictures, businessProfilePhoto ,businessCoverPhoto",
-  //     statusCode:404,
-  //   success:false 
-  //    })
-  // }
+  if(!req.files.businessPictures || !req.files.businessProfilePhoto ||!req.files.businessCoverPhoto ){
+    return res.status(404).json({
+      msg:"required fileds of businessPictures, businessProfilePhoto ,businessCoverPhoto",
+      statusCode:404,
+    success:false 
+     })
+  }
   let  businessPictures = []
 
   for(let i = 0;i<req.files.businessPictures.length;i++){
