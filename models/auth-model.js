@@ -73,7 +73,12 @@ const UserSchema = new mongoose.Schema({
       userBlocked:{ 
         type:Boolean,
         default:false,
+      },
+      active:{
+        type:Boolean,
+        default:true,
       }
+      
     },
      { timestamps: true }
 );

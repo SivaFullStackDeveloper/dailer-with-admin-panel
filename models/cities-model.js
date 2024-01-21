@@ -10,14 +10,7 @@ const citiesSchema = new mongoose.Schema({
     city:{
          type:String,
         },
-        mandal:{
-            type:String,
-        },
-        village:{
-            type:String,
-        },
-        
-   
+       
 })
 
 module.exports = mongoose.model('citiesSchema',citiesSchema)
