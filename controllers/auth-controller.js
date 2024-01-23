@@ -1,6 +1,7 @@
 require('express-async-errors')
 const { StatusCodes } = require('http-status-codes')
 const UserSchema = require('../models/auth-model')
+const groupModel =  require('../models/group-model')
 const  BadRequestError = require('../error/bad-request')
 const  UnAuthenticatedError = require('../error/unauthenticated')
 
@@ -43,6 +44,28 @@ const register = async(req,res)=>{
     if(req.file===undefined){
         url = "https://dailer-backend.onrender.com/uploads/profile.png" 
         const user = await UserSchema.create(req.body);
+        let groupExist = await groupModel.findOne({groupName:user.city})
+
+        const adminDetails = {
+            id:'admin',
+            name:"jk",
+            phoneNumber:"ask Jk Admin Phone",
+            userType:"admin",
+            image:""
+        }
+        const userDetails = {
+            id:user._id,
+            name:user.name,
+            phoneNumber:user.phoneNumber,
+            userType:"user",
+            image:url
+        }
+        if(groupExist){
+            groupExist.groupMembers.push(userDetails)
+               await groupExist.save();
+        }else{
+            await groupModel.create({groupName:user.city,groupMembers:[userDetails,adminDetails]})
+        }
         const token =  await user.createJwt(user._id,user.name)
         console.log(token)
         const updateUser = await UserSchema.findByIdAndUpdate({_id:user._id},{profilePicture: url},{
@@ -83,7 +106,29 @@ const register = async(req,res)=>{
                runValidators: true,
            })
 
-
+           let groupExist = await groupModel.find({groupName:user.city})
+           console.log(groupExist)
+           const adminDetails = {
+               id:'admin',
+               name:"jk",
+               phoneNumber:"ask Jk Admin Phone",
+               userType:"admin",
+               image:""
+           }
+           const userDetails = {
+               id:user._id,
+               name:user.name,
+               phoneNumber:user.phoneNumber,
+               userType:"user",
+               image:url
+           }
+           console.log(groupExist)
+           if(groupExist){
+            groupExist.groupMembers.push(userDetails)
+            await groupExist.save();
+           }else{
+            await groupModel.create({groupName:user.city,groupMembers:[adminDetails,userDetails]})
+        }
    res.status(StatusCodes.CREATED).json({
        data:[{
            id:updateUser._id,

@@ -21,13 +21,12 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage })
 
-router.use(upload.single('messagePicture'))
 
 
 
+router.post('/sendMessage',upload.single('messagePicture'),sendMessage)
 router.route('/getUserChats').get(getUserChats)
 router.route('/getBusinessUserChats').get(getBusinessUserChats)
 router.route('/getSingleChatThread').get(getSingleChatThread)
 router.route('/createChatThread').post(createChatThread)
-router.route('/sendMessage').post(sendMessage)
 module.exports = router

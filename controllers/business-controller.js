@@ -130,9 +130,13 @@ const getBusinessDetails = async(req,res)=>{
 }
 
 const getCategoryBusinessList = async(req,res)=>{
-  const businessDetails = await businessDetailsSchema.find({'category' : req.body.category,'location' :req.body.location})
-  res.status(200).json({businessDetails})
-
+  if(req.body.category==="all"){
+    const businessDetails = await businessDetailsSchema.find({'location' :req.body.location}).sort('-date').limit(10)
+    res.status(200).json({businessDetails})
+  }else{
+    const businessDetails = await businessDetailsSchema.find({'category' : req.body.category,'location' :req.body.location})
+    res.status(200).json({businessDetails})
+  }
 }
 
 const getAllBusinessList = async(req,res)=>{

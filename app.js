@@ -1,4 +1,6 @@
 require('express-async-errors')
+const groupModel = require('./models/group-model')
+var siofu = require("socketio-file-upload");
 const express = require('express')
 const path = require('path');
 const app = express()
@@ -22,6 +24,7 @@ const userRouter = require('./routes/user-route')
 const businessUserRouter = require('./routes/business-route')
 const postRouter = require('./routes/post-route')
 const chatRouter = require('./routes/chat-route')
+const groupRouter = require('./routes/group-route')
 const categoryRouter = require('./routes/categories-route')
 const citiesRouter = require('./routes/cities-route')
 const authorizationMiddleware = require('./middleware/authorization')
@@ -29,7 +32,7 @@ const chatSchema = require('./models/chat-model')
 app.use('/uploads',express.static('uploads'))
 
 app.use(express.json())
-
+app.use(siofu.router)
 app.use(express.urlencoded({ extended: true }));
 //app.use(Helmet())
 app.use(xss())
@@ -38,6 +41,7 @@ app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/admin',adminRouter)
 app.use('/api/v1/user',authorizationMiddleware,userRouter)
 app.use('/api/v1/category',categoryRouter)
+app.use('/api/v1/group',groupRouter)
 app.use('/api/v1/cities',citiesRouter)
 app.use('/api/v1/businessUser',authorizationMiddleware,businessUserRouter)
 app.use('/api/v1/posts',authorizationMiddleware,postRouter)
@@ -50,15 +54,14 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+
 io.of('/api/v1/chat/sendmessage').on('connection', (socket) => {
-    console.log('User connected:', socket.id);
    socket.on('typing',async(data)=>{
     socket.emit('typing',{ data: true})
    })
    socket.on('sendMessage',async(data)=>{
-    let userChats =  await chatSchema.findOne({ _id: data.ChatId},)
-    //let userChats = await chatSchema.find({$or: [{ userId: data.userId}, { businessUserId:  data.businessUserId },]})
-
+    let userChats = await chatSchema.findOne({_id:data.chatId})
+    console.log(userChats)
     var message = {
     userType:data.userType,
     message:data.message,
@@ -72,6 +75,52 @@ io.of('/api/v1/chat/sendmessage').on('connection', (socket) => {
       console.log('User disconnected:', socket.id);
     });
   });
+
+
+  io.of('/api/v1/group/sendmessage').on('connection', (socket) => {
+     socket.on('typing',async(data)=>{
+      socket.emit('typing',{ data: true})
+     })
+     
+     socket.on('sendMessage',async(data)=>{
+      let userChats =  await groupModel.findOne({ _id: data.groupId},)
+      var message = {
+      title:data.title,
+      description:data.description,
+      userType:data.userType,
+      message:data.message,
+      images:"",
+      intrested:[data.PhoneNumber,...userChats.groupMembers]    
+      }
+      userChats.messages.push(message)
+      await userChats.save()
+      socket.emit("responseNewMap", { data: userChats.messages});
+     })
+     socket.on('interestedInMessage', async (data) => {
+      const group = await groupModel.findById(data.groupId);
+      if (group) {
+        const targetMessage = group.messages.find(message => message._id.toString() === data.messageId);
+      
+        if (targetMessage) {
+          targetMessage.intrested.push(data.phoneNumber);
+      
+  
+          await group.save();
+      
+          console.log("Phone number added to the 'intrested' list of the message.");
+        } else {
+          console.log("Message not found in the group.");
+        }
+      } else {
+        console.log("Group not found.");
+      }
+    })
+      socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+      });
+    });
+
+
 
 app.use(notfound)
 app.use(errorHandler)

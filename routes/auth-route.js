@@ -29,7 +29,23 @@ router.post('/login',login)
 router.post('/register',upload.single('profilePicture'),register)
 router.post('/sendOTP',sendOtp)
 router.post('/verifyOTP',verifyOTP)
+router.post('/upload', upload.any(), function (req, res, next) {
+console.log(req.files.length)
+  if (req.files.length>0) {
+    let  Pictures = []
 
+    for(let i = 0;i<req.files.length;i++){
+      const paths = req.files[i].path.replace(/\\/g, "/")
+      const url = "https://dailer-backend.onrender.com/" + paths
+      Pictures.push(url)
+  }
+    
+      return res.status(200).json({ success: true, data: Pictures, message: "Upload successfull" })
+  }
+  else {
+      next(Error("File missing"));
+  }
+})
 
 
 
