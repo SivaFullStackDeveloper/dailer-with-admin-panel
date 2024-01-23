@@ -1,10 +1,12 @@
 require('express-async-errors')
 const { StatusCodes } = require('http-status-codes')
 const UserSchema = require('../models/auth-model')
+const groupModel = require('../models/group-model')
 const businessDetailsSchema = require('../models/business-model')
 const { BadRequestError } = require('../error/bad-request')
 
 const updateBusinessUser = async(req,res)=>{
+const groupUser = groupModel.find(req.body.cityName)
 
   if(!req.files.businessPictures || !req.files.businessProfilePhoto ||!req.files.businessCoverPhoto ){
     return res.status(404).json({
@@ -27,6 +29,17 @@ const   businessCoverPhoto = "https://dailer-backend.onrender.com/" +req.files.b
 const businessDetailsExist = await businessDetailsSchema.findOne({userId:req.body.userId})
 
 if(businessDetailsExist){
+  const userDetails = {
+    id:user._id,
+    name:user.req.body.businessName,
+    phoneNumber: req.body.phoneNum1,
+    userType:"BusinessUser",
+    image:businessProfilePhoto,
+  }
+  if(groupExist){
+    groupExist.groupMembers.push(userDetails)
+       await groupExist.save();
+  }
  const businessDetails= await businessDetailsSchema.findOneAndUpdate({userId:req.body.userId},{
     userId:req.body.userId,
     businessProfilePhoto:businessProfilePhoto,
@@ -73,6 +86,17 @@ if(businessDetailsExist){
     businessDetails
   })
 }else{
+  const userDetails = {
+    id:user._id,
+    name:user.req.body.businessName,
+    phoneNumber: req.body.phoneNum1,
+    userType:"BusinessUser",
+    image:businessProfilePhoto,
+  }
+  if(groupExist){
+    groupExist.groupMembers.push(userDetails)
+       await groupExist.save();
+  }
   const businessDetails = await businessDetailsSchema.create(
     {
       userId:req.body.userId,
