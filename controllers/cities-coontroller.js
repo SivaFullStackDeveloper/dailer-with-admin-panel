@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const citiesSchema = require('../models/cities-model')
-
+const a = require('../models/ApAndTelangana.json');
 
 
 
@@ -13,9 +13,14 @@ const getAllCities = async(req,res)=>{
 
 
 const createCities = async (req, res) => {
-        const cities = await citiesSchema.create(req.body);
-        return res.status(StatusCodes.CREATED).json({cities})       
-       
+    //console.log(a.length)
+    //for(let i = 0;i<a.length;i++){
+    //const cities = await citiesSchema.create({state:a[i].state,district:a[i].district,city:a[i].village});
+    //}
+    //console.log('completed');
+           
+    const cities = await citiesSchema.create(req.body);
+        res.status(201).json(cities)
   };
 
 const updateCities = async(req,res)=>{
@@ -49,45 +54,45 @@ const getAllStates = async(req,res)=>{
     for(let i = 0;i<allCities.length;i++){
         totalCities.push(allCities[i].state)
     }
+    var uSet = new Set(totalCities);
    res.status(StatusCodes.OK).json({
-        totalStates:totalCities
+        totalStates:[...uSet]
     });
 }
 
 
 const getAllDistricts = async(req,res)=>{
-    const {state} = req.query.state
-    console.log(req.query)
+
     let allCities = await citiesSchema.find({state:req.query.state})
-    console.log(allCities)
+
     let totalCities = []
     for(let i = 0;i<allCities.length;i++){
         totalCities.push(allCities[i].district)
     }
+    var uSet = new Set(totalCities);
    res.status(StatusCodes.OK).json({
-        totalDistricts:totalCities
+        totalDistricts:[...uSet]
     });
 }
 
 
 const getAllCity = async(req,res)=>{
-    const {state} = req.query.district
-    console.log(req.query)
+
     let allCities = await citiesSchema.find({district:req.query.district})
-    console.log(allCities)
     let totalCities = []
     for(let i = 0;i<allCities.length;i++){
         totalCities.push(allCities[i].city)
     }
+    var uSet = new Set(totalCities);
    res.status(StatusCodes.OK).json({
-        totalcities:totalCities
+        totalcities:[...uSet]
     });
 }
 const getAllMandal= async(req,res)=>{
     const {state} = req.query.city
     console.log(req.query)
     let allCities = await citiesSchema.find({city:req.query.city})
-    console.log(allCities)
+
     let totalCities = []
     for(let i = 0;i<allCities.length;i++){
         totalCities.push(allCities[i].mandal)

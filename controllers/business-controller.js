@@ -95,7 +95,7 @@ if(businessDetailsExist){
   }
   if(groupExist){
     groupExist.groupMembers.push(userDetails)
-       await groupExist.save();
+    await groupExist.save();
   }
   const businessDetails = await businessDetailsSchema.create(
     {
