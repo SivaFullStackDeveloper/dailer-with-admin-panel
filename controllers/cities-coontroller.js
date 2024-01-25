@@ -103,15 +103,10 @@ const getAllMandal= async(req,res)=>{
 }
 
 const getAllVilage= async(req,res)=>{
-    let allCities = await citiesSchema.find({mandal:req.query.mandal})
-    console.log(allCities)
-    let totalCities = []
-    for(let i = 0;i<allCities.length;i++){
-        totalCities.push(allCities[i].village)
-    }
-   res.status(StatusCodes.OK).json({
-        totalVillages:totalCities
-    });
+    let allCities = await citiesSchema.find({state:req.query.state})
+    res.status(StatusCodes.OK).json({
+         totalDistricts:allCities
+     });
 }
 
 module.exports = {getAllCities,createCities,updateCities,deleteCities,getAllStates,getAllDistricts,getAllCity,getAllMandal,getAllVilage}
