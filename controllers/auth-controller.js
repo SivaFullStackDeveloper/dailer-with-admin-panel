@@ -105,15 +105,14 @@ const register = async(req,res)=>{
         url = "https://dailer-backend.onrender.com/" + paths
        const user = await UserSchema.create(req.body);
        const token =  await user.createJwt(user._id,user.name)
-       console.log(token)
+
        const updateUser = await UserSchema.findByIdAndUpdate({_id:user._id},{profilePicture: url},{
                new:true,
                runValidators: true,
            })
 
            let groupExist = await groupModel.find({groupName:user.city})
-           console.log(groupExist)
-           const adminDetails = {
+                 const adminDetails = {
                id:'admin',
                name:"jk",
                phoneNumber:"ask Jk Admin Phone",
@@ -129,7 +128,13 @@ const register = async(req,res)=>{
            }
            console.log(groupExist)
            if(groupExist){
-            groupExist.groupMembers.push(userDetails)
+            let allgroupMembers = []
+            allgroupMembers.push(userDetails)
+            for(let i = 0;i<groupExist.groupMembers.length;i++){
+                allgroupMembers.push(groupExist.groupMembers[i]);
+            }
+            groupExist.groupMembers = allgroupMembers
+              
             await groupExist.save();
            }else{
             await groupModel.create({groupName:user.city,groupMembers:[adminDetails,userDetails]})
