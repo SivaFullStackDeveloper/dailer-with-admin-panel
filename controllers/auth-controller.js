@@ -61,7 +61,12 @@ const register = async(req,res)=>{
             image:url
         }
         if(groupExist){
-            groupExist.groupMembers.push(userDetails)
+            let allgroupMembers = []
+            allgroupMembers.push(userDetails)
+            for(let i = 0;i<groupExist.groupMembers.length;i++){
+                allgroupMembers.push(groupExist.groupMembers[i]);
+            }
+            groupExist.groupMembers = allgroupMembers
                await groupExist.save();
         }else{
             await groupModel.create({groupName:user.city,groupMembers:[userDetails,adminDetails]})
