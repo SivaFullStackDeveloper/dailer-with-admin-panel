@@ -14,6 +14,23 @@ const registerUserCount = async(req,res)=>{
         todayUserRegistred:userCount,
         "statusCode":StatusCodes.OK
     })
+
 }
+
+const getCategoryBusinessList = async(req,res)=>{
+     const businessDetails = await businessDetailsSchema.find({'location' :req.body.location}).sort('-date').limit(10)
+      res.status(200).json({businessDetails})
+  }
+
+  const getUserList = async(req,res)=>{ 
+    const userDetails = await UserSchema.find({}).sort('-date').limit(10)
+     res.status(200).json({userDetails})
+ }
+
+ const findParticularUserBusiness = async(req,res)=>{
+    const businessUserDetails = await businessDetailsSchema.findOne({userId:req.body.id}).sort('-date').limit(10)
+     res.status(200).json({userDetails})
+ }
+
 
 module.exports = registerUserCount
