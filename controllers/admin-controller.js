@@ -23,7 +23,7 @@ const getCategoryBusinessList = async(req,res)=>{
   }
 
   const getUserList = async(req,res)=>{ 
-    const userDetails = await UserSchema.find({}).sort('-date').limit(10)
+    const userDetails = await UserSchema.find({}).sort('-date').limit(100)
      res.status(200).json({userDetails})
  }
 
@@ -31,6 +31,21 @@ const getCategoryBusinessList = async(req,res)=>{
     const businessUserDetails = await businessDetailsSchema.findOne({userId:req.body.id}).sort('-date').limit(10)
      res.status(200).json({userDetails})
  }
+const searchUserbyNumberOrLocation =  async (req, res) => {
+    const { phoneNumber, location} = req.query;
 
 
-module.exports = registerUserCount
+  if(phoneNumber){
+
+    const users = await UserSchema.find({phoneNumber:phoneNumber})
+    res.status(200).json(users);
+ 
+  }
+if(location){
+const users = await UserSchema.find({city:location})
+res.json(users);
+}
+}
+
+
+module.exports = {registerUserCount,searchUserbyNumberOrLocation}

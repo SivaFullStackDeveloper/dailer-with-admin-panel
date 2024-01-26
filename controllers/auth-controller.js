@@ -172,6 +172,10 @@ const login = async(req,res)=>{
         throw new BadRequestError("Invalid credentials")
     }
     const user = await UserSchema.findOne({phoneNumber})
+    if(!user){
+        throw new UnAuthenticatedError('Invalid Credentials')  
+    }
+   if(user){
     if(user.userBlocked ===true){
         res.status(404).json({
             msg:"User is blocked",
@@ -215,6 +219,9 @@ const login = async(req,res)=>{
             isBlockedOrNot:false,
          })
     }
+   }else{
+
+   }
 
 }
 

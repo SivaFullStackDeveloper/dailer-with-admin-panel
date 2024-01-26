@@ -167,7 +167,7 @@ const getAllBusinessList = async(req,res)=>{
   let { verified, rating, businessName, keyWords, subcategories,  } = req.query;
   const queryObject = {};
   if (rating) {
-    rating = {'$gte':rating}
+    queryObject.rating = {'$gte':rating}
   }
   console.log(rating)
   if (verified) {
