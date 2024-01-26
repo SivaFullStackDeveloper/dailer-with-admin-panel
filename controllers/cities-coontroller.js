@@ -78,9 +78,16 @@ const getAllDistricts = async(req,res)=>{
 
 const getAllCity = async(req,res)=>{
     let allCities = await citiesSchema.find({district:req.query.district})
-    var uSet = new Set(allCities);
+    let totalCities = allCities.reduce((accumulator, currentValue) => {
+        const existingItem = accumulator.find(item => item.city === currentValue.city);
+        if (!existingItem) {
+            accumulator.push(currentValue);
+        }
+        return accumulator;
+    }, [])
+
     res.status(StatusCodes.OK).json({
-        totalcities:[...uSet]
+        totalcities:totalCities
     });
 }
 const getAllMandal= async(req,res)=>{
