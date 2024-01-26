@@ -77,10 +77,10 @@ const getAllDistricts = async(req,res)=>{
 
 
 const getAllCity = async(req,res)=>{
-
     let allCities = await citiesSchema.find({district:req.query.district})
-   res.status(StatusCodes.OK).json({
-        totalcities:allCities
+    var uSet = new Set(allCities);
+    res.status(StatusCodes.OK).json({
+        totalcities:[...uSet]
     });
 }
 const getAllMandal= async(req,res)=>{
