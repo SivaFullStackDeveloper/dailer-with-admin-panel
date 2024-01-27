@@ -105,7 +105,7 @@ const updateUser = async(req,res)=>{
 
 const addCommentRating = async(req,res)=>{
   const user = await UserSchema.findOne({_id:req.body.userId},)
-  const alreadyPostedComment=    await businessModel.findOne(  { _id: req.body.businessId, 'ratingAndComments.userId': req.user.userId },)
+  const alreadyPostedComment=    await businessModel.findOne(  { _id: req.body.businessId, 'ratingAndComments.userId': req.body.userId },)
   if(alreadyPostedComment){
       res.status(404).json({
        msg:"sorry you have already added your comment if you want please try to update",
@@ -166,7 +166,7 @@ const addCommentRating = async(req,res)=>{
       const business = await businessModel.findOne({ _id: req.body.businessId });
   
       business.ratingAndComments = business.ratingAndComments.filter(
-        (comment) => comment.userId.toString() !== req.user.userId
+        (comment) => comment.userId.toString() !==req.body.userId
       );
   
       await business.save();
