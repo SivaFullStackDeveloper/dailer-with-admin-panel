@@ -9,7 +9,7 @@ const likesModel = require('../models/likeOrRmoveLike-model')
 const getUser = async(req,res)=>{
   const user = await UserSchema.findOne({_id:req.body.userId},)
   res.status(200).json({
-        id: user._id,
+        id: user.id,
         name: user.name,
         jobTitle: user.jobTitle,
         companyName: user.companyName,
