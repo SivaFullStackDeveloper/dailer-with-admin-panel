@@ -30,11 +30,10 @@ const businessDetailsSchema = new mongoose.Schema({
         },
         district:{
             type:String,
-            default:""
         },
         cityName:{
             type:String,
-            default:""
+            required:[true, "Please Provide CityName"],
         },
         stateName:{
             type:String,
@@ -157,7 +156,8 @@ const businessDetailsSchema = new mongoose.Schema({
         ratingAndComments:{
             type:[addRatingAndComments]
         }
-})
+},
+{ timestamps: true })
 
 
 module.exports = mongoose.model('businessDetailsSchema',businessDetailsSchema)

@@ -6,7 +6,12 @@ const businessDetailsSchema = require('../models/business-model')
 const { BadRequestError } = require('../error/bad-request')
 
 const updateBusinessUser = async(req,res)=>{
-const groupUser = groupModel.find(req.body.cityName)
+  if(!req.body.cityName){
+    res.status(404).json({msg:"please provide city name it is mandatory"})
+  }
+
+let groupExist = await groupModel.findOne({groupName:req.body.cityName})
+
 
   if(!req.files.businessPictures || !req.files.businessProfilePhoto ||!req.files.businessCoverPhoto ){
     return res.status(404).json({
@@ -25,17 +30,19 @@ const groupUser = groupModel.find(req.body.cityName)
 
 const  businessProfilePhoto = "https://dailer-backend.onrender.com/" +req.files.businessProfilePhoto[0].path.replace(/\\/g, "/")
 const   businessCoverPhoto = "https://dailer-backend.onrender.com/" +req.files.businessCoverPhoto[0].path.replace(/\\/g, "/")
-
+const user = await businessDetailsSchema.findOne({userId:req.body.userId})
 const businessDetailsExist = await businessDetailsSchema.findOne({userId:req.body.userId})
 
 if(businessDetailsExist){
   const userDetails = {
-    id:user._id,
-    name:user.req.body.businessName,
+    id:req.body.userId,
+    name:req.body.businessName,
     phoneNumber: req.body.phoneNum1,
     userType:"BusinessUser",
     image:businessProfilePhoto,
   }
+  let details = groupExist;
+console.log(details[0])
   if(groupExist){
     groupExist.groupMembers.push(userDetails)
        await groupExist.save();
@@ -87,12 +94,14 @@ if(businessDetailsExist){
   })
 }else{
   const userDetails = {
-    id:user._id,
-    name:user.req.body.businessName,
+    id:req.body.userId,
+    name:req.body.businessName,
     phoneNumber: req.body.phoneNum1,
     userType:"BusinessUser",
     image:businessProfilePhoto,
   }
+let details = groupExist.groupMembers;
+console.log(details)
   if(groupExist){
     groupExist.groupMembers.push(userDetails)
     await groupExist.save();

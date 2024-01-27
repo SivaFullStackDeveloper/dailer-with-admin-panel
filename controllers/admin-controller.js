@@ -1,6 +1,7 @@
 require('express-async-errors')
 const { StatusCodes } = require('http-status-codes')
 const UserSchema = require('../models/auth-model')
+const businessSchema = require('../models/business-model')
 
 
 const registerUserCount = async(req,res)=>{
@@ -27,8 +28,8 @@ const getCategoryBusinessList = async(req,res)=>{
      res.status(200).json({userDetails})
  }
 
- const findParticularUserBusiness = async(req,res)=>{
-    const businessUserDetails = await businessDetailsSchema.findOne({userId:req.body.id}).sort('-date').limit(10)
+ const getBusinessUsersByDate = async(req,res)=>{
+    const businessUserDetails = await businessSchema.find({}).sort('-date').limit(100)
      res.status(200).json({userDetails})
  }
 const searchUserbyNumberOrLocation =  async (req, res) => {
@@ -36,9 +37,15 @@ const searchUserbyNumberOrLocation =  async (req, res) => {
 
 
   if(phoneNumber){
+    const user = await UserSchema.findOne({phoneNumber:phoneNumber})
+    const BusinessUser = await businessSchema.findOne({phoneNum1:phoneNumber})
 
-    const users = await UserSchema.find({phoneNumber:phoneNumber})
-    res.status(200).json(users);
+    res.status(200).json({
+    data:[{
+      user:user,
+      businessUser:BusinessUser,
+    }]  
+    });
  
   }
 if(location){
