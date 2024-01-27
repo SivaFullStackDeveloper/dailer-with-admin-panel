@@ -10,6 +10,7 @@ const updateBusinessUser = async(req,res)=>{
     res.status(404).json({msg:"please provide city name it is mandatory"})
   }
 
+  await UserSchema.findOneAndUpdate({_id:req.body.userId},{businessRegister:true});
 let groupExist = await groupModel.findOne({groupName:req.body.cityName})
 
 
