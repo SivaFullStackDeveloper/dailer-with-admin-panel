@@ -25,15 +25,7 @@ const getCategoryBusinessList = async(req,res)=>{
       res.status(200).json({businessDetails})
   }
 
-  const getUserList = async(req,res)=>{ 
-    const userDetails = await UserSchema.find({}).sort('-date').limit(100)
-     res.status(200).json({userDetails})
- }
 
- const getBusinessUsersByDate = async(req,res)=>{
-    const businessUserDetails = await businessSchema.find({}).sort('-date').limit(100)
-     res.status(200).json({userDetails})
- }
 const searchUserbyNumberOrLocation =  async (req, res) => {
     const { phoneNumber, location} = req.query;
 
@@ -251,4 +243,24 @@ const updateUserFromAdmin = async(req,res)=>{
   }
 
 
-module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin,deleteCommentRating,updateUserFromAdmin}
+  const getBusinessUsersByDate = async(req,res)=>{
+  const userProvidedDate = req.params.userProvidedDate;
+  const isoDate = new Date(userProvidedDate + 'T00:00:00.000Z');
+  const isoDateEnd = new Date(userProvidedDate + 'T23:59:59.999Z');
+
+  try {
+    const businessUserDetails = await businessSchema.findOne({  createdAt: { $gte: isoDate, $lt: isoDateEnd }, });
+
+    if (businessUserDetails) {
+      res.status(200).json({ user: businessUserDetails });
+    } else {
+      res.status(404).json({ message: 'User not found for the provided date' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+ }
+
+
+module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin,deleteCommentRating,updateUserFromAdmin,getBusinessUsersByDate}
