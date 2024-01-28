@@ -2,7 +2,9 @@ require('express-async-errors')
 const { StatusCodes } = require('http-status-codes')
 const UserSchema = require('../models/auth-model')
 const businessSchema = require('../models/business-model')
-
+const businessDetailsSchema = require('../models/business-model')
+const groupModel = require('../models/group-model')
+const { BadRequestError } = require('../error/bad-request')
 
 const registerUserCount = async(req,res)=>{
 
@@ -55,4 +57,140 @@ res.json(users);
 }
 
 
-module.exports = {registerUserCount,searchUserbyNumberOrLocation}
+const updateBusinessUserFromAdmin = async(req,res)=>{
+  if(!req.body.cityName){
+    res.status(404).json({msg:"please provide city name it is mandatory"})
+  }
+
+  await UserSchema.findOneAndUpdate({_id:req.body.userId},{businessRegister:true});
+let groupExist = await groupModel.findOne({groupName:req.body.cityName})
+
+let  businessPictures = req.body.businessGallery
+
+const  businessProfilePhoto = req.body.businessProfilePhoto
+const   businessCoverPhoto = req.body.businessCoverPhoto
+const user = await businessDetailsSchema.findOne({userId:req.body.userId})
+const businessDetailsExist = await businessDetailsSchema.findOne({userId:req.body.userId})
+
+if(businessDetailsExist){
+  const userDetails = {
+    id:req.body.userId,
+    name:req.body.businessName,
+    phoneNumber: req.body.phoneNum1,
+    userType:"BusinessUser",
+    image:businessProfilePhoto,
+  }
+  let details = groupExist;
+console.log(details[0])
+  if(groupExist){
+    groupExist.groupMembers.push(userDetails)
+       await groupExist.save();
+  }
+ const businessDetails= await businessDetailsSchema.findOneAndUpdate({userId:req.body.userId},{
+    userId:req.body.userId,
+    businessProfilePhoto:businessProfilePhoto,
+    businessCoverPhoto:businessCoverPhoto,
+    businessName: req.body.businessName,
+    mailId: req.body.mailId,
+    phoneNum1: req.body.phoneNum1,
+    phoneNumAlternative: req.body.phoneNumAlternative,
+    district: req.body.district,
+    cityName: req.body.cityName,
+    stateName:req.body.stateName,
+    address: req.body.address,
+    category: req.body.category,
+    subcategories: req.body.subcategories,
+    PinCode: req.body.PinCode,
+    isLoggedIn: req.body.isLoggedIn,
+    WebLink: req.body.WebLink,
+    businessGallery: businessPictures,
+    comments: req.body.comments,
+    rating: req.body.rating,
+    reviews: req.body.reviews,
+    paymentsAccepted:req.body.paymentsAccepted,
+    yearOfEstablishmen: req.body.yearOfEstablishmen,
+    businessAboutUs:req.body.businessAboutUs,
+    workingHours: req.body.workingHours,
+    keyWords:req.body.keyWords,
+    location:req.body.location,
+    socialMediaLink: req.body.socialMediaLink,
+    languageSpoken:req.body.languageSpoken,
+    parkingAvilbility: req.body.parkingAvilbility,
+    videoTestimons: req.body.videoTestimons,
+    numberOfStaff: req.body.numberOfStaff,
+    achivementsAwards: req.body.achivementsAwards,
+    fastResponseTime: req.body.fastResponseTime,
+    currentResponseTime: req.body.currentResponseTime,
+    getDicrection:req.body.getDicrection,
+    verified: req.body.verified,
+    holidays: req.body.holidays,
+  },{
+    new:true,
+
+  })
+  res.status(201).json({
+    businessDetails
+  })
+}else{
+  const userDetails = {
+    id:req.body.userId,
+    name:req.body.businessName,
+    phoneNumber: req.body.phoneNum1,
+    userType:"BusinessUser",
+    image:businessProfilePhoto,
+  }
+  if(groupExist){
+    groupExist.groupMembers.push(userDetails)
+    await groupExist.save();
+  }
+  const businessDetails = await businessDetailsSchema.create(
+    {
+      userId:req.body.userId,
+      businessProfilePhoto:businessProfilePhoto,
+      businessCoverPhoto:businessCoverPhoto,
+      businessName: req.body.businessName,
+      mailId: req.body.mailId,
+      phoneNum1: req.body.phoneNum1,
+      phoneNumAlternative: req.body.phoneNumAlternative,
+      district: req.body.district,
+      cityName: req.body.cityName,
+      stateName:req.body.stateName,
+      address: req.body.address,
+      category: req.body.category,
+      subcategories: req.body.subcategories,
+      PinCode: req.body.PinCode,
+      isLoggedIn: req.body.isLoggedIn,
+      WebLink: req.body.WebLink,
+      businessGallery: businessPictures,
+      comments: req.body.comments,
+      rating: req.body.rating,
+      reviews: req.body.reviews,
+      paymentsAccepted:req.body.paymentsAccepted,
+      yearOfEstablishmen: req.body.yearOfEstablishmen,
+      businessAboutUs:req.body.businessAboutUs,
+      workingHours: req.body.workingHours,
+      keyWords:req.body.keyWords,
+      location:req.body.location,
+      socialMediaLink: req.body.socialMediaLink,
+      languageSpoken:req.body.languageSpoken,
+      parkingAvilbility: req.body.parkingAvilbility,
+      videoTestimons: req.body.videoTestimons,
+      numberOfStaff: req.body.numberOfStaff,
+      achivementsAwards: req.body.achivementsAwards,
+      fastResponseTime: req.body.fastResponseTime,
+      currentResponseTime: req.body.currentResponseTime,
+      getDicrection:req.body.getDicrection,
+      verified: req.body.verified,
+      holidays: req.body.holidays,
+    })
+
+  await UserSchema.findByIdAndUpdate({_id:req.body.userId},{businessRegister:true})
+
+  res.status(201).json({
+    businessDetails
+  })
+}
+
+}
+
+module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin}
