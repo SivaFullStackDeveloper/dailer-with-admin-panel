@@ -5,6 +5,6 @@ const {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmi
 router.route('/registerUserCount').post(registerUserCount)
 router.route('/search').get(searchUserbyNumberOrLocation)
 router.route('/updateBusiness').post(updateBusinessUserFromAdmin)
-router.route('/deleteCommentAndRating').post(updateBusinessUserFromAdmin)
+router.route('/deleteCommentAndRating').post(deleteCommentRating)
 
 module.exports = router
