@@ -193,4 +193,28 @@ console.log(details[0])
 
 }
 
-module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin}
+
+const deleteCommentRating = async (req, res) => {
+  try {
+    const business = await businessModel.findOne({ _id: req.body.businessId });
+
+    business.ratingAndComments = business.ratingAndComments.filter(
+      (comment) => comment.userId.toString() !==req.body.userId
+    );
+
+    await business.save();
+
+    res.status(201).json({
+      msg: "Deleted comment and rating successfully",
+      statusCode: 201,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      msg: "Internal Server Error",
+      statusCode: 500,
+    });
+  }
+};
+
+module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin,deleteCommentRating}
