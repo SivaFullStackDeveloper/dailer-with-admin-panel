@@ -162,6 +162,217 @@
         }
       }
     },
+    "/api/v1/admin/search": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/updateBusiness": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cityName": {
+                  "example": "any"
+                },
+                "userId": {
+                  "example": "any"
+                },
+                "businessGallery": {
+                  "example": "any"
+                },
+                "businessProfilePhoto": {
+                  "example": "any"
+                },
+                "businessCoverPhoto": {
+                  "example": "any"
+                },
+                "businessName": {
+                  "example": "any"
+                },
+                "phoneNum1": {
+                  "example": "any"
+                },
+                "mailId": {
+                  "example": "any"
+                },
+                "phoneNumAlternative": {
+                  "example": "any"
+                },
+                "district": {
+                  "example": "any"
+                },
+                "stateName": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "category": {
+                  "example": "any"
+                },
+                "subcategories": {
+                  "example": "any"
+                },
+                "PinCode": {
+                  "example": "any"
+                },
+                "isLoggedIn": {
+                  "example": "any"
+                },
+                "WebLink": {
+                  "example": "any"
+                },
+                "comments": {
+                  "example": "any"
+                },
+                "rating": {
+                  "example": "any"
+                },
+                "reviews": {
+                  "example": "any"
+                },
+                "paymentsAccepted": {
+                  "example": "any"
+                },
+                "yearOfEstablishmen": {
+                  "example": "any"
+                },
+                "businessAboutUs": {
+                  "example": "any"
+                },
+                "workingHours": {
+                  "example": "any"
+                },
+                "keyWords": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "any"
+                },
+                "socialMediaLink": {
+                  "example": "any"
+                },
+                "languageSpoken": {
+                  "example": "any"
+                },
+                "parkingAvilbility": {
+                  "example": "any"
+                },
+                "videoTestimons": {
+                  "example": "any"
+                },
+                "numberOfStaff": {
+                  "example": "any"
+                },
+                "achivementsAwards": {
+                  "example": "any"
+                },
+                "fastResponseTime": {
+                  "example": "any"
+                },
+                "currentResponseTime": {
+                  "example": "any"
+                },
+                "getDicrection": {
+                  "example": "any"
+                },
+                "verified": {
+                  "example": "any"
+                },
+                "holidays": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/deleteCommentAndRating": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "businessId": {
+                  "example": "any"
+                },
+                "userId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/updateUser": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/v1/user/updateUser": {
       "patch": {
         "description": "",
@@ -303,6 +514,9 @@
               "type": "object",
               "properties": {
                 "businessId": {
+                  "example": "any"
+                },
+                "userId": {
                   "example": "any"
                 }
               }
@@ -834,6 +1048,9 @@
               "type": "object",
               "properties": {
                 "cityName": {
+                  "example": "any"
+                },
+                "userId": {
                   "example": "any"
                 }
               }

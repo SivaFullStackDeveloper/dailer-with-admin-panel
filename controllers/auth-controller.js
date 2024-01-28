@@ -71,7 +71,7 @@ const register = async(req,res)=>{
         }else{
             await groupModel.create({groupName:user.city,groupMembers:[userDetails,adminDetails]})
         }
-        const token =  await user.createJwt(user._id,user.name)
+        const token =  await user.createJwt(user._id,user.name, {expiresIn: '2d'})
         console.log(token)
         const updateUser = await UserSchema.findByIdAndUpdate({_id:user._id},{profilePicture: url},{
                 new:true,
@@ -104,7 +104,7 @@ const register = async(req,res)=>{
         const paths = req.file.path.replace(/\\/g, "/")
         url = "https://dailer-backend.onrender.com/" + paths
        const user = await UserSchema.create(req.body);
-       const token =  await user.createJwt(user._id,user.name)
+       const token =  await user.createJwt(user._id,user.name,{expiresIn: '2d'})
 
        const updateUser = await UserSchema.findByIdAndUpdate({_id:user._id},{profilePicture: url},{
                new:true,
@@ -192,7 +192,7 @@ const login = async(req,res)=>{
         if(!isPassword){
             throw new UnAuthenticatedError('Invalid Credentials')  
         }
-     const token = user.createJwt(user._id,user.name)
+     const token = user.createJwt(user._id,user.name,{expiresIn: '2d'})
     
         res.status(StatusCodes.OK).json({
             data:[{
