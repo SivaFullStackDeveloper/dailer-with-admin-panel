@@ -173,7 +173,7 @@ const addCommentRating = async(req,res)=>{
   
       res.status(201).json({
         msg: "Deleted comment and rating successfully",
-        statusCode: 201,
+        statusCode: 200,
       });
     } catch (error) {
       console.error(error);

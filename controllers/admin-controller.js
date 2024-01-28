@@ -196,15 +196,15 @@ console.log(details[0])
 
 const deleteCommentRating = async (req, res) => {
   try {
-    const business = await businessModel.findOne({ _id: req.body.businessId });
+    const business = await businessSchema.findOne({ _id: req.body.businessId });
 
-    business.ratingAndComments = business.ratingAndComments.filter(
+    business.ratingAndComments =await  business.ratingAndComments.filter(
       (comment) => comment.userId.toString() !==req.body.userId
     );
 
     await business.save();
 
-    res.status(201).json({
+    res.status(200).json({
       msg: "Deleted comment and rating successfully",
       statusCode: 201,
     });
