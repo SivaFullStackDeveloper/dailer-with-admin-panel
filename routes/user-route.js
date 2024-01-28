@@ -32,4 +32,5 @@ router.route('/addCommentAndRating').post(addCommentRating)
 router.route('/like').post(likeOrRemoveLike)
 router.route('/deleteCommentRating').delete(deleteCommentRating)
 router.route('/updateCommentRating').patch(updateCommentRating)
+
 module.exports = router

@@ -217,4 +217,38 @@ const deleteCommentRating = async (req, res) => {
   }
 };
 
-module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin,deleteCommentRating}
+
+
+
+const updateUserFromAdmin = async(req,res)=>{
+  const id = (req.body.id)
+  let user  = await UserSchema.findOneAndUpdate({_id:id},{...req.body},{new:true,runValidators:true})
+  res.status(StatusCodes.OK).json({
+    data:[{
+      id:user._id,
+      name:user.name,
+      ownerName:user.ownerName,
+      email:user.email,
+      pinCode:user.pinCode,
+      phoneNumber:user.phoneNumber,
+      state:user.state,
+      district:user.district,
+      city:user.city,
+      webLink:user.webLink,
+      alternateNumber:user.alternateNumber,
+      profilePicture:user.profilePicture,
+      businessDetails:user.businessDetails,
+      businessRegister: false,
+      userBlocked: user.userBlocked,
+      active: user.active,
+      jobTitle: user.jobTitle,
+      companyName: user.companyName,
+    }],
+    "msg":"Data updated successfully",
+    "statusCode":StatusCodes.OK,
+    "success":true,
+  })
+  }
+
+
+module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin,deleteCommentRating,updateUserFromAdmin}

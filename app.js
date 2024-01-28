@@ -1,4 +1,5 @@
 require('express-async-errors')
+const UserSchema = require('./models/auth-model')
 const groupModel = require('./models/group-model')
 var siofu = require("socketio-file-upload");
 const express = require('express')
@@ -50,6 +51,7 @@ app.use('/api/v1/posts',authorizationMiddleware,postRouter)
 app.use('/api/v1/chats',authorizationMiddleware,chatRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Define a route to handle requests to the root URL
 app.get('/admin', (req, res) => {
