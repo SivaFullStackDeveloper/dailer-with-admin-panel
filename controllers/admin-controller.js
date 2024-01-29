@@ -252,7 +252,7 @@ const updateUserFromAdmin = async(req,res)=>{
     const businessUserDetails = await businessSchema.findOne({  createdAt: { $gte: isoDate, $lt: isoDateEnd }, });
 
     if (businessUserDetails) {
-      res.status(200).json({ user: businessUserDetails });
+      res.status(200).json({ data: [businessUserDetails] });
     } else {
       res.status(404).json({ message: 'User not found for the provided date' });
     }
