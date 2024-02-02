@@ -5,7 +5,7 @@ const businessSchema = require('../models/business-model')
 const businessDetailsSchema = require('../models/business-model')
 const groupModel = require('../models/group-model')
 const { BadRequestError } = require('../error/bad-request')
-
+const chatSchema = require('../models/chat-model')
 const registerUserCount = async(req,res)=>{
 
     const now = new Date();
@@ -244,15 +244,18 @@ const updateUserFromAdmin = async(req,res)=>{
 
 
   const getBusinessUsersByDate = async(req,res)=>{
-  const userProvidedDate = req.params.userProvidedDate;
-  const isoDate = new Date(userProvidedDate + 'T00:00:00.000Z');
-  const isoDateEnd = new Date(userProvidedDate + 'T23:59:59.999Z');
+  const userStartProvidedDate = req.body.userStartProvidedDate;
+  const userEndProvidedDate = req.body.userEndProvidedDate;
+  console.log( req.body.userProvidedDate);
+  console.log( req.body.userEndProvidedDate);
+  const isoDate = new Date(userStartProvidedDate + 'T00:00:00.000Z');
+  const isoDateEnd = new Date(userEndProvidedDate + 'T23:59:59.999Z');
 
   try {
-    const businessUserDetails = await businessSchema.findOne({  createdAt: { $gte: isoDate, $lt: isoDateEnd }, });
+    const businessUserDetails = await businessSchema.find({  createdAt: { $gte: isoDate, $lt: isoDateEnd }, });
 
     if (businessUserDetails) {
-      res.status(200).json({ data: [businessUserDetails] });
+      res.status(200).json({ data: businessUserDetails });
     } else {
       res.status(404).json({ message: 'User not found for the provided date' });
     }
@@ -263,4 +266,27 @@ const updateUserFromAdmin = async(req,res)=>{
  }
 
 
-module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin,deleteCommentRating,updateUserFromAdmin,getBusinessUsersByDate}
+ const getUsersByDate = async(req,res)=>{
+  const userStartProvidedDate = req.body.userStartProvidedDate;
+  const userEndProvidedDate = req.body.userEndProvidedDate;
+  console.log( req.body.userProvidedDate);
+  console.log( req.body.userEndProvidedDate);
+  const isoDate = new Date(userStartProvidedDate + 'T00:00:00.000Z');
+  const isoDateEnd = new Date(userEndProvidedDate + 'T23:59:59.999Z');
+
+  try {
+    const users = await UserSchema.find({  createdAt: { $gte: isoDate, $lt: isoDateEnd }, });
+
+    if (users) {
+      res.status(200).json({ data: users });
+    } else {
+      res.status(404).json({ message: 'User not found for the provided date' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+ }
+
+
+module.exports = {registerUserCount,searchUserbyNumberOrLocation,updateBusinessUserFromAdmin,deleteCommentRating,updateUserFromAdmin,getBusinessUsersByDate,getUsersByDate}
